@@ -7,6 +7,7 @@ import AdminNewsHeader from '@/components/AdminNewsHeader';
 import Pagination from '@/components/Pagination';
 
 type NewsItem = {
+  id: string;
   title: string;
   url: string;
   updatedAt: string;
@@ -33,7 +34,7 @@ export default function AdminNewsPage() {
   useEffect(() => {
     const fetchNews = async () => {
       setLoading(true);
-      const response = await fetcher(`http://localhost:3000/news?page=${currentPage}`);
+      const response = await fetcher(`${process.env.NEXT_PUBLIC_URL_API}/news?page=${currentPage}`);
       if (response) {
         setNews(response.data);
         setMeta(response.meta);

@@ -12,12 +12,12 @@ type NewsItem = {
   updatedAt: string;
 };
 
-interface NewsTableProps {
+interface NewsCardsProps {
   data: NewsItem[];
   error?: boolean;
 }
 
-export default function NewsTable({ data, error }: NewsTableProps) {
+export default function NewsCards({ data, error }: NewsCardsProps) {
   const router = useRouter();
   const deleteNews = async (id: string) => {
     const confirmed = window.confirm('Tem certeza que deseja excluir esta notícia?');

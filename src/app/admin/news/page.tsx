@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import axios from 'axios';
-import NewsTable from '@/components/NewsTable';
+import NewsCards from '@/components/NewsCards';
 import AdminNewsHeader from '@/components/AdminNewsHeader';
 import Pagination from '@/components/Pagination';
 
@@ -54,7 +54,7 @@ export default function AdminNewsPage() {
           <p className="text-center py-10">Carregando notícias...</p>
         ) : (
           <>
-            <NewsTable data={news} error={error} />
+            <NewsCards data={news} error={error} />
             {news.length > 0 && (
               <Pagination
                currentPage={currentPage}

@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import axios from 'axios';
-import NewsTable from '@/components/NewTable';
+import NewsTable from '@/components/NewsTable';
 import AdminNewsHeader from '@/components/AdminNewsHeader';
 import Pagination from '@/components/Pagination';
 

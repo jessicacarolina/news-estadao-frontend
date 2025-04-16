@@ -24,7 +24,7 @@ export default function NewsTable({ data, error }: NewsTableProps) {
   };
 
   return (
-    <section className="mt-10 px-4 sm:px-6 lg:px-8">
+    <section className="mt-2 px-4 sm:px-6 lg:px-8">
       <h2 className="text-2xl font-bold text-gray-800 mb-6">Lista de Notícias</h2>
 
       {error && (

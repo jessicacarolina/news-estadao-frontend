@@ -3,6 +3,7 @@
 import { useRouter } from 'next/navigation';
 import { format } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
+import axios from 'axios';
 
 type NewsItem = {
   id: string;
@@ -18,6 +19,18 @@ interface NewsTableProps {
 
 export default function NewsTable({ data, error }: NewsTableProps) {
   const router = useRouter();
+  const deleteNews = async (id: string) => {
+    const confirmed = window.confirm('Tem certeza que deseja excluir esta notícia?');
+    if (!confirmed) return;
+    try {
+      await axios.delete(`${process.env.NEXT_PUBLIC_URL_API}/admin/news/${id}`);
+      alert('Notícia excluída com sucesso!');
+      window.location.reload();
+    } catch (err) {
+      console.error(err);
+      alert('Erro ao excluir. Tente novamente.');
+    }
+  };
   
   const handleEdit = (id: string) => {
     router.push(`/admin/news/update/${id}`);
@@ -75,7 +88,9 @@ export default function NewsTable({ data, error }: NewsTableProps) {
                   >
                     Editar
                   </button>
-                  <button className="text-red-600 hover:underline font-medium">Excluir</button>
+                  <button 
+                    onClick={() => deleteNews(news.id)}
+                    className="text-red-600 hover:underline font-medium">Excluir</button>
                 </div>
               </footer>
             </article>

@@ -1,11 +1,22 @@
 'use client';
 
-import { useState } from 'react';
-import axios from 'axios';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 
-export default function CreateNewsForm() {
+interface NewsData {
+  title?: string;
+  subtitle?: string;
+  section?: string;
+  url?: string;
+  publicationDateTime?: string;
+  image?: string;
+  imageThumb?: string;
+  content?: string;
+}
+
+export default function NewsForm({ initialData = {} as NewsData, onSubmit, isEditing = false }: { initialData?: NewsData; onSubmit: (data: NewsData) => Promise<void>; isEditing?: boolean }) {
   const router = useRouter();
+  
   const [title, setTitle] = useState('');
   const [subtitle, setSubtitle] = useState('');
   const [section, setSection] = useState('');
@@ -17,34 +28,59 @@ export default function CreateNewsForm() {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
+  useEffect(() => {
+    if (isEditing && initialData) {
+      setTitle(initialData.title || '');
+      setSubtitle(initialData.subtitle || '');
+      setSection(initialData.section || '');
+      setUrl(initialData.url || '');
+      setPublicationDateTime(initialData.publicationDateTime?.slice(0, 16) || '');
+      setImage(initialData.image || '');
+      setImageThumb(initialData.imageThumb || '');
+      setContent(initialData.content || '');
+    }
+  }, [initialData]);
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
 
+    const isoDate = new Date(publicationDateTime).toISOString().replace(/\.\d{3}Z$/, 'Z');
     const newsData = {
       title,
       subtitle,
       section,
       url,
-      publicationDateTime,
+      publicationDateTime: isoDate,
       image,
       imageThumb,
       content,
     };
 
     try {
-      await axios.post(`${process.env.NEXT_PUBLIC_URL_API}/admin/news`, newsData);
-      router.push('/admin/news');
+      await onSubmit(newsData);
     } catch (err) {
-      setError('Erro ao criar notícia. Tente novamente.');
+      setError('Erro ao enviar os dados. Tente novamente.');
     }
 
     setLoading(false);
   };
 
   return (
-    <div className="w-full md:w-[60%] mx-auto px-4 sm:px-6 lg:px-8 py-6 bg-gray-50 shadow-md rounded-lg">
-      <h2 className="text-3xl font-bold text-gray-800 mb-6">Criar Nova Notícia</h2>
+    <div className="w-full md:w-[60%] mx-auto px-4 py-6 bg-gray-50 shadow-md rounded-lg">
+      <button
+        onClick={() => router.push('/admin/news')}
+        className="mb-4 flex items-center text-blue-600 hover:text-blue-800 transition-colors"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+        </svg>
+        Voltar
+      </button>
+
+      <h2 className="text-3xl font-bold text-gray-800 mb-6">
+        {isEditing ? 'Editar Notícia' : 'Criar Nova Notícia'}
+      </h2>
       {error && (
         <div className="text-center text-red-600 border border-red-300 bg-red-50 p-4 rounded-lg shadow-sm mb-6">
           {error}
@@ -166,11 +202,19 @@ export default function CreateNewsForm() {
 
         <div className="flex justify-end gap-4 mt-6 md:col-span-2">
           <button
+            type="button"
+            onClick={() => router.push('/admin/news')}
+            className="bg-gray-300 text-gray-800 px-6 py-3 rounded-lg font-semibold shadow-md hover:bg-gray-400 transition-all duration-300"
+          >
+            Cancelar
+          </button>
+
+          <button
             type="submit"
             className="bg-blue-600 text-white px-6 py-3 rounded-lg font-semibold shadow-md hover:bg-blue-700 transition-all duration-300"
             disabled={loading}
           >
-            {loading ? 'Enviando...' : 'Criar Notícia'}
+            {loading ? 'Enviando...' : isEditing ? 'Salvar Alterações' : 'Criar Notícia'}
           </button>
         </div>
       </form>

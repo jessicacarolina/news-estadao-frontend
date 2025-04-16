@@ -1,9 +1,16 @@
-import CreateNewsForm from '@/components/CreateNewsForm';
+'use client';
+
+import { useRouter } from 'next/navigation';
+import axios from 'axios';
+import NewsForm from '@/components/NewsForm';
 
 export default function CreateNewsPage() {
-  return (
-    <div className="flex flex-col items-center justify-start min-h-screen p-8 pb-20 gap-8 sm:p-20">
-      <CreateNewsForm />
-    </div>
-  );
+  const router = useRouter();
+
+  const handleCreate = async (data: any) => {
+    await axios.post(`${process.env.NEXT_PUBLIC_URL_API}/admin/news`, data);
+    router.push('/admin/news');
+  };
+
+  return <NewsForm onSubmit={handleCreate} />;
 }

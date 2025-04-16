@@ -1,7 +1,11 @@
+'use client';
+
+import { useRouter } from 'next/navigation';
 import { format } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
 
 type NewsItem = {
+  id: string;
   title: string;
   url: string;
   updatedAt: string;
@@ -13,6 +17,12 @@ interface NewsTableProps {
 }
 
 export default function NewsTable({ data, error }: NewsTableProps) {
+  const router = useRouter();
+  
+  const handleEdit = (id: string) => {
+    router.push(`/admin/news/update/${id}`);
+  };
+
   return (
     <section className="mt-10 px-4 sm:px-6 lg:px-8">
       <h2 className="text-2xl font-bold text-gray-800 mb-6">Lista de Notícias</h2>
@@ -59,7 +69,12 @@ export default function NewsTable({ data, error }: NewsTableProps) {
 
               <footer className="flex flex-col gap-3 mt-auto pt-4 border-t border-gray-100 text-sm text-gray-600">
                 <div className="flex justify-end gap-4">
-                  <button className="text-blue-600 hover:underline font-medium">Editar</button>
+                  <button
+                    onClick={() => handleEdit(news.id)}
+                    className="text-blue-600 hover:underline font-medium"
+                  >
+                    Editar
+                  </button>
                   <button className="text-red-600 hover:underline font-medium">Excluir</button>
                 </div>
               </footer>

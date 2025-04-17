@@ -67,17 +67,7 @@ export default function NewsForm({ initialData = {} as NewsData, onSubmit, isEdi
   };
 
   return (
-    <div className="w-full md:w-[60%] mx-auto px-4 py-6 bg-gray-50 shadow-md rounded-lg">
-      <button
-        onClick={() => router.push('/admin/news')}
-        className="mb-4 flex items-center text-blue-600 hover:text-blue-800 transition-colors cursor-pointer"
-      >
-        <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-        </svg>
-        Voltar
-      </button>
-
+    <div className="w-full md:w-[60%] mx-auto px-4 py-6 bg-gray-50 shadow-md rounded-lg mt-4">
       <h2 className="text-3xl font-bold text-gray-800 mb-6">
         {isEditing ? 'Editar Notícia' : 'Criar Nova Notícia'}
       </h2>

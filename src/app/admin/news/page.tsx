@@ -36,7 +36,7 @@ export default function AdminNewsPage() {
   }, [currentPage]);
 
   return (
-    <div className="flex flex-col items-center justify-start min-h-screen p-8 pb-20 gap-8 sm:p-20 font-[family-name:var(--font-geist-sans)]">
+    <div className="flex flex-col w-full mx-auto min-w-[375px] items-center justify-start min-h-screen pb-20 gap-2 p-2 font-[family-name:var(--font-geist-sans)]">
       <AdminNewsHeader />
 
       <div className="w-full max-w-4xl">

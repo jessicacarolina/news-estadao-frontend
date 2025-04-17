@@ -26,7 +26,7 @@ export default function NewsDetail({ params }: { params: { slug: string } }) {
   });
 
   return (
-    <div className="max-w-3xl w-full mx-auto px-4 sm:px-6 py-10">
+    <div className="max-w-3xl w-full mx-auto min-w-[375px] px-4 sm:px-6 py-10">
       <p className="text-blue-600 text-xs font-bold uppercase text-start mb-6">
         {news.section}
       </p>

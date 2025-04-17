@@ -1,16 +1,7 @@
 import Image from 'next/image';
 import { MessageCircle, Bookmark, Share2 } from 'lucide-react';
 import Link from 'next/link';
-
-type NewsItem = {
-  id: string;
-  title: string;
-  subtitle: string;
-  section: string;
-  imageThumb: string;
-  url: string;
-  updatedAt: string;
-};
+import type { NewsItem } from '@/types/news';
 
 interface NewsCardHomeProps {
   news: NewsItem;
@@ -46,13 +37,13 @@ export default function NewsCardHome({ news }: NewsCardHomeProps) {
           <hr className="my-4 border-gray-200" />
 
           <div className="flex justify-end gap-4 text-gray-500">
-            <button className="hover:text-blue-600">
+            <button className="hover:text-blue-600 cursor-pointer">
               <Share2 size={18} />
             </button>
-            <button className="hover:text-blue-600">
+            <button className="hover:text-blue-600 cursor-pointer">
               <MessageCircle size={18} />
             </button>
-            <button className="hover:text-blue-600">
+            <button className="hover:text-blue-600 cursor-pointer">
               <Bookmark size={18} />
             </button>
           </div>

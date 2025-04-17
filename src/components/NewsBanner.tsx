@@ -1,15 +1,6 @@
+import type { NewsItem } from '@/types/news';
 import Image from 'next/image';
 import Link from 'next/link';
-
-type NewsItem = {
-  id: string;
-  title: string;
-  subtitle: string;
-  section: string;
-  imageThumb: string;
-  url: string;
-  updatedAt: string;
-};
 
 interface NewsBannerProps {
   news: NewsItem;

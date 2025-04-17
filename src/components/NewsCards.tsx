@@ -4,16 +4,12 @@ import { useRouter } from 'next/navigation';
 import { format } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
 import axios from 'axios';
+import type { NewsItem } from '@/types/news';
 
-type NewsItem = {
-  id: string;
-  title: string;
-  url: string;
-  updatedAt: string;
-};
+type NewsSummary = Pick<NewsItem, 'id' | 'title' | 'url' | 'updatedAt'>;
 
 interface NewsCardsProps {
-  data: NewsItem[];
+  data: NewsSummary[];
   error?: boolean;
 }
 
@@ -84,13 +80,13 @@ export default function NewsCards({ data, error }: NewsCardsProps) {
                 <div className="flex justify-end gap-4">
                   <button
                     onClick={() => handleEdit(news.id)}
-                    className="text-blue-600 hover:underline font-medium"
+                    className="text-blue-600 hover:underline font-medium cursor-pointer"
                   >
                     Editar
                   </button>
                   <button 
                     onClick={() => deleteNews(news.id)}
-                    className="text-red-600 hover:underline font-medium">Excluir</button>
+                    className="text-red-600 hover:underline font-medium cursor-pointer">Excluir</button>
                 </div>
               </footer>
             </article>

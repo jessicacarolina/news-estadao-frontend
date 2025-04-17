@@ -70,7 +70,7 @@ export default function NewsForm({ initialData = {} as NewsData, onSubmit, isEdi
     <div className="w-full md:w-[60%] mx-auto px-4 py-6 bg-gray-50 shadow-md rounded-lg">
       <button
         onClick={() => router.push('/admin/news')}
-        className="mb-4 flex items-center text-blue-600 hover:text-blue-800 transition-colors"
+        className="mb-4 flex items-center text-blue-600 hover:text-blue-800 transition-colors cursor-pointer"
       >
         <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
@@ -204,14 +204,14 @@ export default function NewsForm({ initialData = {} as NewsData, onSubmit, isEdi
           <button
             type="button"
             onClick={() => router.push('/admin/news')}
-            className="bg-gray-300 text-gray-800 px-6 py-3 rounded-lg font-semibold shadow-md hover:bg-gray-400 transition-all duration-300"
+            className="bg-gray-300 text-gray-800 px-6 py-3 rounded-lg font-semibold shadow-md hover:bg-gray-400 transition-all duration-300 cursor-pointer"
           >
             Cancelar
           </button>
 
           <button
             type="submit"
-            className="bg-blue-600 text-white px-6 py-3 rounded-lg font-semibold shadow-md hover:bg-blue-700 transition-all duration-300"
+            className="bg-blue-600 text-white px-6 py-3 rounded-lg font-semibold shadow-md hover:bg-blue-700 transition-all duration-300 cursor-pointer"
             disabled={loading}
           >
             {loading ? 'Enviando...' : isEditing ? 'Salvar Alterações' : 'Criar Notícia'}

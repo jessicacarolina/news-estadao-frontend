@@ -1,47 +1,32 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import axios from 'axios';
 import NewsBanner from '@/components/NewsBanner';
 import NewsCardHome from '@/components/NewsCardHome';
-
-type NewsItem = {
-  id: string;
-  title: string;
-  subtitle: string;
-  section: string;
-  imageThumb: string;
-  url: string;
-  updatedAt: string;
-};
+import Pagination from '@/components/Pagination';
+import { getAllNews } from '@/services';
+import type { Meta, NewsItem } from '@/types/news';
 
 export default function HomePage() {
   const [news, setNews] = useState<NewsItem[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
-  const [meta, setMeta] = useState({ pageCount: 1 });
-
-  const fetcher = async (url: string) => {
-    try {
-      const res = await axios.get(url);
-      return res.data;
-    } catch (err) {
-      console.error(err);
-      setError(true);
-      return null;
-    }
-  };
+  const [meta, setMeta] = useState<Meta>({ totalPages: 1, page: 1, totalItems: 1 });
 
   useEffect(() => {
     const fetchNews = async () => {
       setLoading(true);
-      const response = await fetcher(`${process.env.NEXT_PUBLIC_URL_API}/news?page=${currentPage}`);
-      if (response) {
-        setNews(response.data);
-        setMeta(response.meta);
+      try {
+        const response = await getAllNews(`${process.env.NEXT_PUBLIC_URL_API}/news?page=${currentPage}`);
+        if (response) {
+          setNews(response.data);
+          setMeta(response.meta);
+        }
+        setLoading(false);
+      } catch (error) {
+        setError(true);
       }
-      setLoading(false);
     };
 
     fetchNews();
@@ -68,6 +53,11 @@ export default function HomePage() {
               <NewsCardHome key={item.id} news={item} />
             ))}
           </div>
+          <Pagination
+            currentPage={currentPage}
+            totalPages={meta.totalPages || 1}
+            onPageChange={setCurrentPage}
+          />
         </>
       )}
     </section>

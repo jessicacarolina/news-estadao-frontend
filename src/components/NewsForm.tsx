@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
+import RichTextEditor from './RichTextEditor';
 
 interface NewsData {
   title?: string;
@@ -43,9 +44,26 @@ export default function NewsForm({ initialData = {} as NewsData, onSubmit, isEdi
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setError('');
     setLoading(true);
+    const selectedDate = new Date(publicationDateTime);
+    const now = new Date();
+    const oneYearFromNow = new Date();
+    oneYearFromNow.setFullYear(now.getFullYear() + 1);
 
-    const isoDate = new Date(publicationDateTime).toISOString().replace(/\.\d{3}Z$/, 'Z');
+    if (isNaN(selectedDate.getTime())) {
+      setError('Data de publicação inválida. Verifique o formato.');
+      setLoading(false);
+      return;
+    }
+
+    if (selectedDate > oneYearFromNow) {
+      setError('A data de publicação não pode ser superior a 1 ano a partir de hoje.');
+      setLoading(false);
+      return;
+    }
+
+    const isoDate = selectedDate.toISOString().replace(/\.\d{3}Z$/, 'Z');
     const newsData = {
       title,
       subtitle,
@@ -144,7 +162,7 @@ export default function NewsForm({ initialData = {} as NewsData, onSubmit, isEdi
             onChange={(e) => setPublicationDateTime(e.target.value)}
             required
             min={new Date().toISOString().slice(0, 16)}
-            className="mt-1 p-3 w-full border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 cursor-pointer"
+            className="mt-1 p-3 w-full border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 cursor-text"
           />
         </div>
 
@@ -180,14 +198,7 @@ export default function NewsForm({ initialData = {} as NewsData, onSubmit, isEdi
           <label htmlFor="content" className="block text-sm font-medium text-gray-700">
             Conteúdo
           </label>
-          <textarea
-            id="content"
-            value={content}
-            onChange={(e) => setContent(e.target.value)}
-            required
-            rows={10}
-            className="mt-1 p-3 w-full border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500"
-          />
+          <RichTextEditor value={content} onChange={setContent} />
         </div>
 
         <div className="flex justify-end gap-4 mt-6 md:col-span-2">

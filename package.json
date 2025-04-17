@@ -12,6 +12,8 @@
     "test:cov": "jest --coverage"
   },
   "dependencies": {
+    "@tiptap/react": "^2.11.7",
+    "@tiptap/starter-kit": "^2.11.7",
     "axios": "^1.8.4",
     "date-fns": "^4.1.0",
     "lucide-react": "^0.488.0",

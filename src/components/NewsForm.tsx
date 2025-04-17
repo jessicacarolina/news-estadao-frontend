@@ -46,6 +46,13 @@ export default function NewsForm({ initialData = {} as NewsData, onSubmit, isEdi
     e.preventDefault();
     setError('');
     setLoading(true);
+
+    if (!content || content.trim() === '' || content === '<p><br></p>') {
+      setError('O conteúdo da notícia não pode estar vazio.');
+      setLoading(false);
+      return;
+    }
+
     const selectedDate = new Date(publicationDateTime);
     const now = new Date();
     const oneYearFromNow = new Date();
@@ -62,8 +69,10 @@ export default function NewsForm({ initialData = {} as NewsData, onSubmit, isEdi
       setLoading(false);
       return;
     }
-
-    const isoDate = selectedDate.toISOString().replace(/\.\d{3}Z$/, 'Z');
+    const date = new Date(publicationDateTime);
+    const offset = date.getTimezoneOffset();
+    const adjustedDate = new Date(date.getTime() - offset * 60000);
+    const isoDate = adjustedDate.toISOString().replace(/\.\d{3}Z$/, 'Z');
     const newsData = {
       title,
       subtitle,
@@ -83,6 +92,13 @@ export default function NewsForm({ initialData = {} as NewsData, onSubmit, isEdi
 
     setLoading(false);
   };
+
+  function getLocalMinDatetime() {
+    const now = new Date();
+    const offset = now.getTimezoneOffset();
+    const localDate = new Date(now.getTime() - offset * 60000);
+    return localDate.toISOString().slice(0, 16); // yyyy-MM-ddTHH:mm
+  }
 
   return (
     <div className="w-full md:w-[60%] mx-auto px-4 py-6 bg-gray-50 shadow-md rounded-lg mt-4">
@@ -161,7 +177,7 @@ export default function NewsForm({ initialData = {} as NewsData, onSubmit, isEdi
             value={publicationDateTime}
             onChange={(e) => setPublicationDateTime(e.target.value)}
             required
-            min={new Date().toISOString().slice(0, 16)}
+            min={getLocalMinDatetime()}
             className="mt-1 p-3 w-full border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 cursor-text"
           />
         </div>

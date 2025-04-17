@@ -5,6 +5,8 @@ import { format } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
 import axios from 'axios';
 import type { NewsItem } from '@/types/news';
+import DeleteModal from './DeleteModal';
+import { useState } from 'react';
 
 type NewsSummary = Pick<NewsItem, 'id' | 'title' | 'url' | 'updatedAt'>;
 
@@ -15,6 +17,34 @@ interface NewsCardsProps {
 
 export default function NewsCards({ data, error }: NewsCardsProps) {
   const router = useRouter();
+  const [modalOpen, setModalOpen] = useState(false);
+  const [selectedId, setSelectedId] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
+  const [success, setSuccess] = useState(false);
+
+  const handleDeleteClick = (id: string) => {
+    setSelectedId(id);
+    setModalOpen(true);
+  };
+
+  const handleConfirmDelete = async () => {
+    if (!selectedId) return;
+    setLoading(true);
+    try {
+      await axios.delete(`${process.env.NEXT_PUBLIC_URL_API}/admin/news/${selectedId}`);
+      setSuccess(true);
+      setTimeout(() => {
+        setModalOpen(false);
+        window.location.reload();
+      }, 1500);
+    } catch (err) {
+      console.error(err);
+      alert('Erro ao excluir. Tente novamente.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const deleteNews = async (id: string) => {
     const confirmed = window.confirm('Tem certeza que deseja excluir esta notícia?');
     if (!confirmed) return;
@@ -85,7 +115,7 @@ export default function NewsCards({ data, error }: NewsCardsProps) {
                     Editar
                   </button>
                   <button 
-                    onClick={() => deleteNews(news.id)}
+                    onClick={() => handleDeleteClick(news.id)}
                     className="text-red-600 hover:underline font-medium cursor-pointer">Excluir</button>
                 </div>
               </footer>
@@ -93,6 +123,16 @@ export default function NewsCards({ data, error }: NewsCardsProps) {
           ))}
         </div>
       )}
+      <DeleteModal
+        isOpen={modalOpen}
+        onClose={() => {
+          setModalOpen(false);
+          setSuccess(false);
+        }}
+        onConfirm={handleConfirmDelete}
+        loading={loading}
+        success={success}
+      />
     </section>
   );
 }

@@ -19,7 +19,7 @@ export default function NewsCardHome({ news }: NewsCardHomeProps) {
   const slug = slugify(news.title);
   return (
     <Link href={`/${slug}?id=${news.id}`}>
-      <article className="flex flex-col border border-gray-200 rounded-2xl overflow-hidden bg-white shadow-sm hover:shadow-md transition duration-300">
+      <article className="flex flex-col border border-gray-200 rounded-2xl overflow-hidden bg-white shadow-sm hover:shadow-md transition duration-300 w-full h-full">
         <Image
           src={news.imageThumb}
           alt={news.title}
@@ -28,11 +28,13 @@ export default function NewsCardHome({ news }: NewsCardHomeProps) {
           className="w-full h-48 object-cover"
         />
 
-        <div className="p-4 flex flex-col flex-grow">
-          <span className="text-xs text-gray-500 uppercase">{news.section}</span>
+        <div className="flex flex-col flex-grow p-4">
+          <div className="flex-grow">
+            <span className="text-xs text-gray-500 uppercase">{news.section}</span>
 
-          <h3 className="text-lg font-semibold text-gray-800 mt-2">{news.title}</h3>
-          <p className="text-sm text-gray-600 mt-1">{news.subtitle}</p>
+            <h3 className="text-lg font-semibold text-gray-800 mt-2">{news.title}</h3>
+            <p className="text-sm text-gray-600 mt-1">{news.subtitle}</p>
+          </div>
 
           <hr className="my-4 border-gray-200" />
 

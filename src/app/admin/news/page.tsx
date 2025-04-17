@@ -27,6 +27,7 @@ export default function AdminNewsPage() {
         }
         setLoading(false);
       } catch (error) {
+        setLoading(false);
         setError(true);
       }
     };

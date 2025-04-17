@@ -25,6 +25,7 @@ export default function HomePage() {
         }
         setLoading(false);
       } catch (error) {
+        setLoading(false);
         setError(true);
       }
     };
@@ -38,7 +39,7 @@ export default function HomePage() {
     <section className="w-full max-w-6xl mx-auto min-w-[375px] px-4 sm:px-6 lg:px-8 py-6">
       {loading && <p className="text-center text-gray-600">Carregando...</p>}
 
-      {error && (
+      {!loading && error && (
         <div className="text-center text-red-600 border border-red-300 bg-red-50 p-4 rounded-lg shadow-sm">
           Erro ao carregar notícias. Tente novamente mais tarde.
         </div>

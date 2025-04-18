@@ -35,12 +35,12 @@ As decisões sobre arquitetura, organização do projeto e tecnologias utilizada
 
 - via SSH
 ```bash 
-git@github.com:jessicacarolina/news-estadao-frontend.git
+git clone git@github.com:jessicacarolina/news-estadao-frontend.git
 cd news-estadao-frontend
 ```
 - Ou via HTTPS
 ```bash 
-https://github.com/jessicacarolina/news-estadao-frontend.git
+git clone https://github.com/jessicacarolina/news-estadao-frontend.git
 cd news-estadao-frontend
 ```
 
@@ -55,7 +55,7 @@ cp .env.example .env
 #### 3. **Suba os containers**
 
 ```bash
-docker-compose up --build
+docker compose up --build
 ```
 
 > Isso iniciará:

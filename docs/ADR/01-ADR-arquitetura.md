@@ -3,9 +3,7 @@
 ## *Contexto*  
 Construir um frontend moderno e escalável para consumo de uma API de notícias, com foco em:
 - Facilidade de manutenção e extensibilidade
-- Otimização de performance e SEO
-- Boas práticas de gerenciamento de estado e cache
-- Ambiente de desenvolvimento padronizado e sem atrito
+- Ambiente de desenvolvimento padronizado e sem atrito com docker
 - Compatibilidade com SSR (Server-side Rendering) e SSG (Static Site Generation)
 
 ---
@@ -16,28 +14,14 @@ Construir um frontend moderno e escalável para consumo de uma API de notícias,
 - Suporte nativo a **SSR** e **SSG**, ideal para performance e SEO em páginas públicas
 - Roteamento automático baseado em arquivos, com estrutura organizada
 - Suporte a APIs internas caso necessário (via `pages/api`)
-- Suporte total ao **React 18** e seus recursos modernos
+- Suporte total ao **React 19** e seus recursos modernos
 - Facilidade de deploy em ambientes como Vercel ou Docker
+- Altamente recomendado pela própia comnidade do React
 
 ### Por que React?
 - Amplo ecossistema e comunidade ativa
 - Componentização e reutilização facilitada
-- Alto nível de flexibilidade para integrar bibliotecas modernas (como TanStack Query)
-
----
-
-## *Gerenciamento de Estado com TanStack Query + Context API*
-
-### Por que TanStack Query (React Query)?
-- Cache automático de chamadas HTTP
-- Refetching automático e controle de stale data
-- Fácil integração com SSR do Next.js
-- Elimina necessidade de estados locais para dados externos (como chamadas de API)
-
-### Por que Context API?
-- Ideal para **estados globais estáticos**, como tema, idioma ou autenticação
-- Simples e sem dependência externa, ótimo para testes e protótipos
-- Pode ser combinado com React Query sem conflitos
+- Alto nível de flexibilidade para integrar bibliotecas modernas
 
 ---
 
@@ -48,14 +32,16 @@ Organização modular para favorecer escalabilidade e clareza de responsabilidad
 ```bash
 src/
 ├── components/            # Componentes reutilizáveis
-├── contexts/              # Providers de estado com Context API
-├── hooks/                 # Custom Hooks
-├── pages/                 # Rotas do Next.js
+├── app/                   # Rotas do Next.js
 │   ├── admin/
-│   └── public/            
+│       ├── news/
+│           ├── create/
+│           ├── update/
+│   ├── slug/
+│   ├── page.tsx            
+│   └── layout.tsx            
 ├── services/              # Configuração de queries e chamadas de API
-├── styles/                # Estilização global e modular
-└── utils/                 # Funções auxiliares
+├── types/                 # Tipos reutilizáveis
 ```
 
 ---
@@ -69,8 +55,7 @@ src/
 ### Estrutura Inicial:
 ```bash
 docker/
-├── Dockerfile.dev              # Container para ambiente de desenvolvimento com hot reload
-├── Dockerfile                  # (opcional) Para build de produção
+├── Dockerfile                 
 ├── .dockerignore
 ├── docker-compose.yml
 ```

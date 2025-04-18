@@ -16,6 +16,9 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "Estadão - As últimas notícias do Brasil e do Mundo",
   description: "As últimas notícias do Brasil e do Mundo",
+  icons: {
+    icon: '/favicon.png',
+  },
 };
 
 export default function RootLayout({
